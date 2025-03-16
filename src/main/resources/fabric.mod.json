@@ -1,14 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "resourcepackupdater",
+  "id": "spresourceloader",
   "version": "${version}",
-  "name": "Resource Pack Updating Utility",
-  "description": "Updates a resource pack at game launch, or when requested.",
+  "name": "Sparkpixel Resource Pack Loader",
+  "description": ".",
   "authors": [
-    "Zbx1425"
+    "[Professor] Zbx1425",
+    "[Greenhorn] Qingha821"
   ],
   "contact": {
-    "homepage": "https://www.zbx1425.cn"
+    "homepage": "https://www.zbx1425.cn",
+    "page": "https://corona.studio/cmfs"
   },
   "license": "MIT",
   "icon": "icon.png",
