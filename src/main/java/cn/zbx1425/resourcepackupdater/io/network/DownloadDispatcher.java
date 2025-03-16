@@ -45,7 +45,7 @@ public class DownloadDispatcher {
                         task.runBlocking(target.get());
                         if (task.failedAttempts > 0) {
                             delayedProgresses.add(() -> {
-                                progressReceiver.printLogOutsidePolling(String.format("Downloading files ... (Retry %d succeed)",
+                                progressReceiver.printLogOutsidePolling(String.format("下载文件中 ... (重试 %d 成功)",
                                         task.failedAttempts));
                             });
                         }
