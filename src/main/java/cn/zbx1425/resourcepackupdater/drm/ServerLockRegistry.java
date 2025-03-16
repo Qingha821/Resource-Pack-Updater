@@ -38,7 +38,7 @@ public class ServerLockRegistry {
                 if (!serverLockPrefetched) {
                     remoteServerLock = localServerLock;
                     packAppliedServerLock = remoteServerLock;
-                    ResourcePackUpdater.LOGGER.info("Server lock info prefetched from local pack.");
+                    ResourcePackUpdater.LOGGER.info("从本地包中预取服务器信息");
                     serverLockPrefetched = true;
                 }
             } else {
@@ -67,23 +67,20 @@ public class ServerLockRegistry {
     public static void onAfterSetServerLock() {
         if (lockAllSyncedPacks) {
             Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastIds.PACK_LOAD_FAILURE,
-                    Text.literal("同步資源包不完整而未被采用"), Text.literal("您可按 F3+T 重試下載。如有錯誤請聯絡管理人員。")
-            ));
-            Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastIds.PACK_LOAD_FAILURE,
-                    Text.literal("Synced Resource Pack Incomplete and Thus not Used"), Text.literal("Press F3+T to download again. Ask the staff when error.")
+                    Text.literal("服务器转悠资源包文件不完整而未被采用"), Text.literal("您可按 F3+T 重新下载，如有任何问题请联系群主或管理")
             ));
         }
 
         if (localServerLock == null) {
-            ResourcePackUpdater.LOGGER.info("Asset coordination not required.");
+            ResourcePackUpdater.LOGGER.info("不需要资源同步");
         } else if (remoteServerLock == null) {
-            ResourcePackUpdater.LOGGER.info("Asset coordination received no cooperation.");
+            ResourcePackUpdater.LOGGER.info("资源同步没有有效链接");
         } else if (!remoteServerLock.equals(localServerLock)) {
-            ResourcePackUpdater.LOGGER.info("Asset coordination received discrepancy.");
+            ResourcePackUpdater.LOGGER.info("资源同步存在差异");
         } else if (lockAllSyncedPacks) {
-            ResourcePackUpdater.LOGGER.info("Asset coordination is unavailable for incompleteness.");
+            ResourcePackUpdater.LOGGER.info("资源同步因不完整而不可用。");
         } else {
-            ResourcePackUpdater.LOGGER.info("Asset coordination is applicable.");
+            ResourcePackUpdater.LOGGER.info("资源同步成功并可使用");
         }
         if (localServerLock != null && !Objects.equals(packAppliedServerLock, remoteServerLock)) {
             packAppliedServerLock = remoteServerLock;
