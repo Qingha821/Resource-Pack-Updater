@@ -56,7 +56,7 @@ public class ProgressForm implements GlScreenForm {
         GlHelper.drawString(20, 195, progressFormWidth - 40, 30, 18,
                 monospace ? auxiliaryInfo.substring(1) : auxiliaryInfo, 0xff222222, monospace, false);
 
-        String escBtnHint = ResourcePackUpdater.CONFIG.sourceList.value.size() > 1 ? "Cancel / Use Another Source" : "Cancel";
+        String escBtnHint = ResourcePackUpdater.CONFIG.sourceList.value.size() > 1 ? "取消 / 使用另一下载源（暂不可用）" : "取消";
         GlHelper.drawString(20, progressFormHeight - 30, progressFormWidth - 40, 16, 16, "(" + escBtnHint + ": Hold ESC)", 0xff222222, false, true);
 
         GlHelper.end();
