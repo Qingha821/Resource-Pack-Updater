@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "spresourceloader",
+  "id": "resourcepackupdater",
   "version": "${version}",
   "name": "Sparkpixel Resource Pack Loader",
   "description": ".",
