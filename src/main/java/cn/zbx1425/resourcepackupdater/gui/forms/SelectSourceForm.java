@@ -27,7 +27,8 @@ public class SelectSourceForm implements GlScreenForm {
         }
 
         GlHelper.setMatCenterForm(selectSourceFormWidth, selectSourceFormHeight, 0.6f);
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // 移除对 PRELOAD_FONT_TEXTURE 的调用
+        // GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
         GlScreenForm.drawShadowRect(selectSourceFormWidth, selectSourceFormHeight, 0xffdee6ea);
 
         GlHelper.drawString(20, 15, selectSourceFormWidth - 40, 50, 18,
@@ -47,7 +48,7 @@ public class SelectSourceForm implements GlScreenForm {
         String escBtnHint = "按键功能：W/S: 选择, Enter: 确定";
         GlHelper.drawString(20, selectSourceFormHeight - 20, selectSourceFormWidth - 40, 16, 16, escBtnHint, 0xff222222, false, true);
 
-        GlHelper.end();
+        // GlHelper.end();
     }
 
     private int heldKey = -1;
@@ -66,9 +67,9 @@ public class SelectSourceForm implements GlScreenForm {
                 heldKey = InputConstants.KEY_DOWN;
             }
         } else if (InputConstants.isKeyDown(glfwWindow, InputConstants.KEY_RETURN)
-            || InputConstants.isKeyDown(glfwWindow, InputConstants.KEY_SPACE)
-            || InputConstants.isKeyDown(glfwWindow, InputConstants.KEY_RIGHT)
-            || countdownExpired) {
+                || InputConstants.isKeyDown(glfwWindow, InputConstants.KEY_SPACE)
+                || InputConstants.isKeyDown(glfwWindow, InputConstants.KEY_RIGHT)
+                || countdownExpired) {
             if (selectedIndex == ResourcePackUpdater.CONFIG.sourceList.value.size()) {
                 throw new GlHelper.MinecraftStoppingException();
             }

@@ -12,6 +12,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.client.gui.fonts.TrueTypeFont; // 导入 TrueTypeFont 类
+import net.minecraft.client.gui.fonts.FontManager; // 导入 FontManager 类
 
 public class GlHelper {
 
@@ -35,6 +37,7 @@ public class GlHelper {
         RenderSystem.enableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.disableCull();
+        initFont(); // 初始化 TTF 字体
     }
 
     public static void resetGlStates() {
@@ -47,9 +50,15 @@ public class GlHelper {
         RenderSystem.setProjectionMatrix(lastProjectionMat);
     }
 
-    public static final ResourceLocation PRELOAD_FONT_TEXTURE =
-            new ResourceLocation(ResourcePackUpdater.MOD_ID, "textures/font/dyfont.ttf");
-    public static final SimpleFont preloadFont = new SimpleFont(PRELOAD_FONT_TEXTURE);
+    // 定义 TTF 字体资源
+    public static final ResourceLocation TTF_FONT_RESOURCE = new ResourceLocation(ResourcePackUpdater.MOD_ID, "textures/fonts/dyfont.ttf");
+    public static TrueTypeFont ttfFont;
+
+    // 创建 TrueTypeFont 实例
+    public static void initFont() {
+        FontManager fontManager = Minecraft.getInstance().fontManager;
+        ttfFont = new TrueTypeFont(fontManager, TTF_FONT_RESOURCE, 16); // 16 是字体大小，可以根据需要调整
+    }
 
     private static BufferBuilder bufferBuilder;
 
@@ -91,58 +100,21 @@ public class GlHelper {
         withColor(bufferBuilder.vertex(x1, y2, 1f).uv(preloadFont.whiteU, preloadFont.whiteV), color).endVertex();
     }
 
-    public static void drawShadowString(float x1, float y1, float width, float height, float fontSize,
-                                  String text, int color, boolean monospace, boolean noWrap) {
-        drawString(x1 + fontSize / 16, y1 + fontSize / 16, width, height, fontSize, text, 0xFF222222, monospace, noWrap);
-        drawString(x1, y1, width, height, fontSize, text, color, monospace, noWrap);
-    }
-
+    // 修改 drawString 方法以使用 TTF 字体
     public static void drawString(float x1, float y1, float width, float height, float fontSize,
                                   String text, int color, boolean monospace, boolean noWrap) {
-        float CHAR_SPACING = 0f;
-        float LINE_SPACING = 0.25f;
+        ttfFont.draw(text, x1, y1, fontSize, color); // 使用 TTF 字体渲染文本
+    }
 
-        var x = x1;
-        var y = y1;
-        for (char chr : text.toCharArray()) {
-            if (chr == '\n') {
-                y += fontSize + LINE_SPACING * fontSize;
-                x = x1;
-            } else if (chr == '\r') {
-                // Ignore CR
-            } else if (chr == '\t') {
-                // Align to 8 spaces
-                float alignToPixels = (preloadFont.spaceWidthPl + CHAR_SPACING) * 8 * fontSize;
-                x = (float) (Math.ceil((x - x1) / alignToPixels) * alignToPixels + x1);
-            } else if (chr == ' ') {
-                x += (preloadFont.spaceWidthPl + CHAR_SPACING) * fontSize;
-            } else {
-                SimpleFont.GlyphProperty glyph = preloadFont.getGlyph(chr);
-                float advance = glyph.advancePl * fontSize;
-
-                if (x + advance + CHAR_SPACING * fontSize > x1 + width) {
-                    if (noWrap) {
-                        continue;
-                    } else {
-                        y += fontSize + LINE_SPACING * fontSize;
-                        x = x1;
-                    }
-                }
-                if (y + fontSize > y1 + height) {
-                    return;
-                }
-
-                blit(x + glyph.offsetXPl * fontSize, y + (preloadFont.baseLineYPl + glyph.offsetYPl) * fontSize,
-                        glyph.widthPl * fontSize, glyph.heightPl * fontSize,
-                        glyph.u1, glyph.v1, glyph.u2, glyph.v2, color);
-                x += advance + CHAR_SPACING * fontSize;
-            }
-        }
+    // 修改 drawShadowString 方法
+    public static void drawShadowString(float x1, float y1, float width, float height, float fontSize,
+                                        String text, int color, boolean monospace, boolean noWrap) {
+        ttfFont.draw(text, x1 + fontSize / 16, y1 + fontSize / 16, fontSize, 0xFF222222); // 绘制阴影
+        ttfFont.draw(text, x1, y1, fontSize, color); // 绘制文本
     }
 
     public static float getStringWidth(String text, float fontSize) {
         float CHAR_SPACING = 0f;
-
         float width = 0;
         float x = 0;
         for (char chr : text.toCharArray()) {

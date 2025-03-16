@@ -16,8 +16,9 @@ public class ExceptionForm implements GlScreenForm {
     @Override
     public void render() {
         GlHelper.setMatScaledPixel();
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
-        GlHelper.blit(0, 0, GlHelper.getWidth(), GlHelper.getHeight(), 0x88000000);
+        // 移除对 PRELOAD_FONT_TEXTURE 的调用
+        // GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // GlHelper.blit(0, 0, GlHelper.getWidth(), GlHelper.getHeight(), 0x88000000);
 
         if (exception != null) {
             GlHelper.drawShadowString(20, 20, GlHelper.getWidth() - 40, LINE_HEIGHT, FONT_SIZE,

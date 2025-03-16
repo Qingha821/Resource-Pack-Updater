@@ -115,10 +115,9 @@ public class GlProgressScreen implements ProgressReceiver {
         GlHelper.blit(bgX, bgY, bgW, bgH, 0, 0, 1, 1, 0xffffffff);
         GlHelper.end();
 
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // 使用 TTF 字体渲染版本信息
         GlHelper.drawShadowString(GlHelper.getWidth() - 10 - 80, GlHelper.getHeight() - 10 - 16, 80, 20, 16,
                 "v" + ResourcePackUpdater.MOD_VERSION, 0xffffff00, false, true);
-        GlHelper.end();
 
         GlHelper.begin(PRELOAD_HEADER_TEXTURE);
         float hdW = 512, hdH = hdW * 32 / 512;

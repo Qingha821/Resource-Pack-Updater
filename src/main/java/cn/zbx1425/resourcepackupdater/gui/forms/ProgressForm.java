@@ -17,8 +17,9 @@ public class ProgressForm implements GlScreenForm {
     @Override
     public void render() {
         GlHelper.setMatCenterForm(progressFormWidth, progressFormHeight, 0.75f);
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
-        GlScreenForm.drawShadowRect(progressFormWidth, progressFormHeight, 0xffdee6ea);
+        // 移除对 PRELOAD_FONT_TEXTURE 的调用
+        // GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // GlScreenForm.drawShadowRect(progressFormWidth, progressFormHeight, 0xffdee6ea);
 
         float barBegin = 0;
         float usableBarWidth = progressFormWidth - barBegin - 0;
@@ -26,14 +27,14 @@ public class ProgressForm implements GlScreenForm {
         GlHelper.blit(barBegin, 0, usableBarWidth, 30, 0x4435aa8e);
         GlHelper.drawString(progressTextStart, 0 + 10, 80, LINE_HEIGHT, 16,
                 String.format("%d%%", Math.round(primaryProgress * 100)), 0xff328a75, false, true);
-        GlHelper.end();
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // GlHelper.end();
+        // GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
         GlHelper.enableScissor(0, 0, usableBarWidth * primaryProgress, 30);
         GlHelper.blit(barBegin, 0, usableBarWidth, 30, 0xff35aa8e);
         GlHelper.drawString(progressTextStart, 0 + 10, 80, LINE_HEIGHT, 16,
                 String.format("%d%%", Math.round(primaryProgress * 100)), 0xffffffff, false, true);
-        GlHelper.end();
-        GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
+        // GlHelper.end();
+        // GlHelper.begin(GlHelper.PRELOAD_FONT_TEXTURE);
         GlHelper.disableScissor();
 
         GlHelper.drawString(20, 45, progressFormWidth - 40, 50, 20,
@@ -52,14 +53,14 @@ public class ProgressForm implements GlScreenForm {
         GlHelper.drawString(20, 80, progressFormWidth - 40, 180 - 80, 16,
                 secondaryProgress, 0xff222222, false, true);
 
-        boolean monospace = !auxiliaryInfo.isEmpty() && auxiliaryInfo.charAt(0)== ':';
+        boolean monospace = !auxiliaryInfo.isEmpty() && auxiliaryInfo.charAt(0) == ':';
         GlHelper.drawString(20, 195, progressFormWidth - 40, 30, 18,
                 monospace ? auxiliaryInfo.substring(1) : auxiliaryInfo, 0xff222222, monospace, false);
 
         String escBtnHint = ResourcePackUpdater.CONFIG.sourceList.value.size() > 1 ? "取消 / 使用另一下载源（暂不可用）" : "取消";
         GlHelper.drawString(20, progressFormHeight - 30, progressFormWidth - 40, 16, 16, "(" + escBtnHint + ": Hold ESC)", 0xff222222, false, true);
 
-        GlHelper.end();
+        // GlHelper.end();
     }
 
     @Override
